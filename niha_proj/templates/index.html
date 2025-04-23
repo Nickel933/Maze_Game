@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Maze of Echoes</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: #000;
+      overflow: hidden;
+      font-family: 'Orbitron', sans-serif;
+    }
+    canvas {
+      display: block;
+      margin: 0 auto;
+      background: #0a0a0a;
+      box-shadow: 0 0 50px #0ff5, inset 0 0 20px #0ff3;
+    }
+    #winMessage {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: #0f0;
+      font-size: 2rem;
+      background: rgba(0, 0, 0, 0.8);
+      padding: 30px 50px;
+      border: 2px solid #0f0;
+      box-shadow: 0 0 25px #0f0, 0 0 50px #0f0 inset;
+      display: none;
+      z-index: 10;
+    }
+  </style>
+</head>
+<body>
+  <!-- The canvas that will display the maze -->
+  <canvas id="mazeCanvas"></canvas>
+  <!-- Win message that will show up when player completes the maze -->
+  <div id="winMessage">You escaped the Maze of Echoes! You are a Smart Human Being.</div>
+
+  <!-- Game logic and rendering script -->
+  <script src="/static/game.js"></script>
+  <!-- Question Modal -->
+<div id="questionModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; 
+background:rgba(0,0,0,0.6); z-index:20; justify-content:center; align-items:center;">
+<div style="background:#111; color:#0ff; padding:20px; border-radius:12px; text-align:center; max-width:90%; font-family:'Orbitron', sans-serif; box-shadow: 0 0 15px #0ff;">
+<p id="questionText" style="font-size:1.2rem;"></p>
+<div id="options"></div>
+</div>
+</div>
+
+</body>
+</html>

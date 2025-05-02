@@ -9,6 +9,12 @@ app = Flask(__name__)
 CORS(app)
 app.secret_key = 'supersecretkey'
 
+app.permanent_session_lifetime = 0  # Sessions end when browser closes
+@app.before_request
+def make_session_non_permanent():
+    session.permanent = False  # Forces login every time browser is reopened
+
+
 # MySQL Configuration
 config = {
     'host': 'localhost',

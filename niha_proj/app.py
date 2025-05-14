@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify, session, redirect, url_for
+ from flask import Flask, render_template, request, jsonify, session, redirect, url_for
 import random
 import mysql.connector
 from mysql.connector import Error
@@ -9,18 +9,12 @@ app = Flask(__name__)
 CORS(app)
 app.secret_key = 'supersecretkey'
 
-app.permanent_session_lifetime = 0  # Sessions end when browser closes
-@app.before_request
-def make_session_non_permanent():
-    session.permanent = False  # Forces login every time browser is reopened
-
-
 # MySQL Configuration
 config = {
     'host': 'localhost',
     'database': 'maze_game',
     'user': 'root',
-    'password': 'nithuniha'
+    'password': 'divvmaha'
 }
 
 def get_db_connection():

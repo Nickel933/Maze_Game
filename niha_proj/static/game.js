@@ -1,4 +1,4 @@
-const size = 60; // Maze size
+const size = 60;
 const canvas = document.getElementById("mazeCanvas");
 const ctx = canvas.getContext("2d");
 
@@ -88,7 +88,7 @@ function removeWalls(a, b) {
     b.walls[0] = false;
   }
 }
-function animateWallBreak(cellA, cellB, wallIndex, duration = 10) {
+function animateWallBreak(cellA, cellB, wallIndex, duration = 60) {
     wallBreakAnimations.push({ cellA, cellB, wallIndex, frame: 0, duration });
   }
   
@@ -271,7 +271,7 @@ function gameLoop() {
 
     drawMaze();
   
-    // 🔥 Draw wall break animation
+    //  Draw wall break animation
     wallBreakAnimations = wallBreakAnimations.filter(anim => {
       const progress = anim.frame / anim.duration;
       const x1 = anim.cellA.x * cellSize;
@@ -281,25 +281,51 @@ function gameLoop() {
       ctx.lineWidth = 3;
   
       ctx.beginPath();
-      switch (anim.wallIndex) {
-        case 0: // Top
-          ctx.moveTo(x1 + cellSize * progress, y1);
-          ctx.lineTo(x1 + cellSize * (1 - progress), y1);
-          break;
-        case 1: // Right
-          ctx.moveTo(x1 + cellSize, y1 + cellSize * progress);
-          ctx.lineTo(x1 + cellSize, y1 + cellSize * (1 - progress));
-          break;
-        case 2: // Bottom
-          ctx.moveTo(x1 + cellSize * progress, y1 + cellSize);
-          ctx.lineTo(x1 + cellSize * (1 - progress), y1 + cellSize);
-          break;
-        case 3: // Left
-          ctx.moveTo(x1, y1 + cellSize * progress);
-          ctx.lineTo(x1, y1 + cellSize * (1 - progress));
-          break;
-      }
-      ctx.stroke();
+switch (anim.wallIndex) {
+  case 0: // Top
+    ctx.moveTo(x1 + cellSize * progress, y1);
+    ctx.lineTo(x1 + cellSize * (1 - progress), y1);
+    break;
+  case 1: // Right
+    ctx.moveTo(x1 + cellSize, y1 + cellSize * progress);
+    ctx.lineTo(x1 + cellSize, y1 + cellSize * (1 - progress));
+    break;
+  case 2: // Bottom
+    ctx.moveTo(x1 + cellSize * progress, y1 + cellSize);
+    ctx.lineTo(x1 + cellSize * (1 - progress), y1 + cellSize);
+    break;
+  case 3: // Left
+    ctx.moveTo(x1, y1 + cellSize * progress);
+    ctx.lineTo(x1, y1 + cellSize * (1 - progress));
+    break;
+}
+ctx.stroke();
+
+//  Crackle/spark effect
+ctx.strokeStyle = `rgba(255, 255, 0, ${Math.random() * 0.5 + 0.5})`;
+ctx.lineWidth = 1;
+ctx.beginPath();
+for (let i = 0; i < 3; i++) {
+  const jitter = (Math.random() - 0.5) * cellSize * 0.3;
+  switch (anim.wallIndex) {
+    case 0: case 2: {
+      const y = anim.wallIndex === 0 ? y1 : y1 + cellSize;
+      const xStart = x1 + Math.random() * cellSize * 0.9;
+      ctx.moveTo(xStart, y);
+      ctx.lineTo(xStart + jitter, y + jitter);
+      break;
+    }
+    case 1: case 3: {
+      const x = anim.wallIndex === 1 ? x1 + cellSize : x1;
+      const yStart = y1 + Math.random() * cellSize * 0.9;
+      ctx.moveTo(x, yStart);
+      ctx.lineTo(x + jitter, yStart + jitter);
+      break;
+    }
+  }
+}
+ctx.stroke();
+
       anim.frame++;
       return anim.frame <= anim.duration;
     });
